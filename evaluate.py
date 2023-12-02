@@ -60,7 +60,7 @@ def evaluate_model():
     images, labels = next(dataiter)
 
     # Display images
-    imshow(torchvision.utils.make_grid(images))
+    # imshow(torchvision.utils.make_grid(images))
     print('GroundTruth: ', ' '.join(f'{classes[labels[j]]}' for j in range(4)))
 
     outputs = net(images)
