@@ -37,7 +37,6 @@ def imshow(img):
 net = Net()
 PATH = './cifar_net.pth'
 
-
 try:
     net.load_state_dict(torch.load(PATH))
     print("Model loaded successfully.")
