@@ -39,17 +39,6 @@ class Net(nn.Module):
         return x
 
 
-
-# Function to check if the model file exists and load it
-def load_model_if_exists(model, path):
-    if os.path.isfile(path):
-        model.load_state_dict(torch.load(path))
-        print("Loaded existing model from", path)
-    else:
-        print("No existing model found. Starting training from scratch.")
-
-
-
 def main():
     # Set the device to GPU if available, else CPU
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -60,7 +49,7 @@ def main():
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
     # Load CIFAR-10 dataset
-    should_download = not(os.path.isdir('./data')) # Checking if data has already been downloaded
+    should_download = not(os.path.isfile('./data/cifar-10-python.tar.gz')) # Checking if data has already been downloaded
     trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
                                             download=should_download, transform=transform)
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,
@@ -72,7 +61,13 @@ def main():
     
     # Load existing weights if available
     PATH = './cifar_net.pth'
-    load_model_if_exists(net, PATH)
+    
+    # Load the model if it exists
+    if os.path.isfile(PATH):
+        net.load_state_dict(torch.load(PATH))
+        print("Loaded existing model from", PATH)
+    else:
+        print("No existing model found. Starting training from scratch.")
 
     # Define the loss function and optimizer
     criterion = nn.CrossEntropyLoss()
