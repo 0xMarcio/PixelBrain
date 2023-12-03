@@ -35,7 +35,7 @@ def imshow(img):
 
 # Load the model
 net = Net()
-PATH = './cifar_net2.pth'
+PATH = './cifar_net.pth'
 
 try:
     net.load_state_dict(torch.load(PATH))
